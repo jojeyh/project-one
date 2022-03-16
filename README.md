@@ -1,1 +1,1 @@
-# project-one
+# Project One: An Employee Reimbursement System
