@@ -10,8 +10,11 @@ repositories {
 }
 
 dependencies {
+    implementation 'io.javalin:javalin:4.3.0'
+    implementation 'com.auth0:java-jwt:3.19.0'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    testImplementation 'ch.qos.logback:logback-classic:1.2.11'
 }
 
 test {
