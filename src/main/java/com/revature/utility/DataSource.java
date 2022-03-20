@@ -5,6 +5,8 @@ public class DataSource {
     private String username;
     private String password;
 
+    public DataSource() {}
+
     public String getUrl() {
         return url;
     }
