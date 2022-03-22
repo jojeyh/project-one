@@ -4,6 +4,7 @@ import com.revature.dto.LoginDTO;
 import com.revature.model.User;
 import com.revature.service.JWTService;
 import com.revature.service.UserService;
+import io.javalin.Javalin;
 import io.javalin.http.Handler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

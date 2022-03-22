@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import java.security.Key;
 
 public class JWTService {
-    Logger logger = LoggerFactory.getLogger()
+    public static Logger logger = LoggerFactory.getLogger(JWTService.class);
 
     private static JWTService instance;
     private Key key;
@@ -34,6 +34,8 @@ public class JWTService {
                 .claim("user_role", user.getUserRole())
                 .signWith(key)
                 .compact();
+
+        logger.info("JWT created: " + jwt);
 
         return jwt;
     }
