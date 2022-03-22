@@ -15,6 +15,9 @@ public class Reimbursement {
     private ReimbursementType type;
 
     public enum ReimbursementType {
-        // TODO add types
+        LODGING,
+        TRAVEL,
+        FOOD,
+        OTHER
     }
 }

@@ -1,19 +1,8 @@
-package com.revature.utility;
+package com.revature.dto;
 
-public class DataSource {
-    private String url;
+public class LoginDTO {
     private String username;
     private String password;
-
-    public DataSource() {}
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
 
     public String getUsername() {
         return username;
