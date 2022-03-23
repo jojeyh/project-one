@@ -1,5 +1,7 @@
 package com.revature.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.revature.dto.ReimbursementDTO;
 import com.revature.model.Reimbursement;
 import com.revature.service.JWTService;
@@ -11,6 +13,7 @@ import io.javalin.http.UnauthorizedResponse;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public class ReimbursementController implements Controller {
@@ -22,6 +25,32 @@ public class ReimbursementController implements Controller {
         this.reimbursementService = new ReimbursementService();
         this.jwtService = JWTService.getInstance();
     }
+
+    private Handler addReimbursement = ctx -> {
+
+        String jwt = ctx.header("Authorization").split(" ")[1];
+        Jws<Claims> token = this.jwtService.parseJwt(jwt);
+
+        Integer user_id = Integer.parseInt(ctx.pathParam("user_id"));
+
+        if (!token.getBody().get("user_role").equals("employee")) {
+            throw new UnauthorizedResponse("Only employees can access this endpoint");
+        }
+
+        if (!token.getBody().get("user_id").equals(user_id)) {
+            throw new UnauthorizedResponse("You may only submit reimbursements for yourself");
+        }
+
+        Timestamp submitted = new Timestamp(System.currentTimeMillis());
+
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+        Reimbursement reimbursement = gson.fromJson(ctx.body(), Reimbursement.class);
+        reimbursement.setSubmitted(submitted);
+
+        Reimbursement added = this.reimbursementService.addReimbursement(reimbursement);
+
+        ctx.json(added);
+    };
 
     private Handler getAllReimbursements = ctx -> {
 
@@ -37,8 +66,28 @@ public class ReimbursementController implements Controller {
         ctx.json(reimbursements);
     };
 
+    private Handler getEmployeeReimbursements = ctx -> {
+
+        String jwt = ctx.header("Authorization").split(" ")[1];
+
+        Jws<Claims> token = this.jwtService.parseJwt(jwt);
+
+        Integer user_id = Integer.parseInt(ctx.pathParam("user_id"));
+
+        // TODO refactor this into a helper function
+        if (!token.getBody().get("user_role").equals("employee") || !token.getBody().get("user_id").equals(user_id)) {
+            throw new UnauthorizedResponse("You are not authorized to view these reimbursements");
+        }
+
+        List<Reimbursement> reimbursements = reimbursementService.getEmployeeReimbursements(user_id);
+
+        ctx.json(reimbursements);
+    };
+
     @Override
     public void mapEndpoints(Javalin app) {
-        app.get("/reimbursements", getAllReimbursements);
+        app.get("/reimbursement", getAllReimbursements);
+        app.post("/user/{user_id}/reimbursement", addReimbursement);
+        app.get("/employee/{user_id}/reimbursements", getEmployeeReimbursements);
     }
 }

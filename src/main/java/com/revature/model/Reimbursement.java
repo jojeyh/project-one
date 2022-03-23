@@ -3,6 +3,7 @@ package com.revature.model;
 import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Objects;
 
 public class Reimbursement {
@@ -11,11 +12,36 @@ public class Reimbursement {
     private Timestamp submitted;
     private Timestamp resolved;
     private String description;
-    private byte[] image;
+    private byte[] image; // TODO change to InputStream
     private int author;
     private int resolver;
     private int status;
-    private String reimb_type;
+    private int reimb_type;
+
+    public Reimbursement(int id, int amount, Timestamp submitted, Timestamp resolved, String description, byte[] image, int author, int resolver, int status, int reimb_type) {
+        this.id = id;
+        this.amount = amount;
+        this.submitted = submitted;
+        this.resolved = resolved;
+        this.description = description;
+        this.image = image;
+        this.author = author;
+        this.resolver = resolver;
+        this.status = status;
+        this.reimb_type = reimb_type;
+    }
+
+    public Reimbursement(int id, int amount, Timestamp submitted, String description, byte[] image, int author, int resolver, int status, int reimb_type) {
+        this.id = id;
+        this.amount = amount;
+        this.submitted = submitted;
+        this.description = description;
+        this.image = image;
+        this.author = author;
+        this.resolver = resolver;
+        this.status = status;
+        this.reimb_type = reimb_type;
+    }
 
     @Override
     public String toString() {
@@ -29,7 +55,7 @@ public class Reimbursement {
                 ", author=" + author +
                 ", resolver=" + resolver +
                 ", status=" + status +
-                ", reimb_type='" + reimb_type + '\'' +
+                ", reimb_type=" + reimb_type +
                 '}';
     }
 
@@ -38,7 +64,7 @@ public class Reimbursement {
         if (this == o) return true;
         if (!(o instanceof Reimbursement)) return false;
         Reimbursement that = (Reimbursement) o;
-        return getId() == that.getId() && getAmount() == that.getAmount() && getAuthor() == that.getAuthor() && getResolver() == that.getResolver() && getStatus() == that.getStatus() && getSubmitted().equals(that.getSubmitted()) && Objects.equals(getResolved(), that.getResolved()) && Objects.equals(getDescription(), that.getDescription()) && Arrays.equals(getImage(), that.getImage()) && getReimb_type().equals(that.getReimb_type());
+        return getId() == that.getId() && getAmount() == that.getAmount() && getAuthor() == that.getAuthor() && getResolver() == that.getResolver() && getStatus() == that.getStatus() && getReimb_type() == that.getReimb_type() && Objects.equals(getSubmitted(), that.getSubmitted()) && getResolved().equals(that.getResolved()) && getDescription().equals(that.getDescription()) && Arrays.equals(getImage(), that.getImage());
     }
 
     @Override
@@ -46,18 +72,6 @@ public class Reimbursement {
         int result = Objects.hash(getId(), getAmount(), getSubmitted(), getResolved(), getDescription(), getAuthor(), getResolver(), getStatus(), getReimb_type());
         result = 31 * result + Arrays.hashCode(getImage());
         return result;
-    }
-
-    public Reimbursement(int id, int amount, Timestamp submitted, String description, byte[] image, int author, int resolver, int status, String reimb_type) {
-        this.id = id;
-        this.amount = amount;
-        this.submitted = submitted;
-        this.description = description;
-        this.image = image;
-        this.author = author;
-        this.resolver = resolver;
-        this.status = status;
-        this.reimb_type = reimb_type;
     }
 
     public int getId() {
@@ -132,11 +146,11 @@ public class Reimbursement {
         this.status = status;
     }
 
-    public String getReimb_type() {
+    public int getReimb_type() {
         return reimb_type;
     }
 
-    public void setReimb_type(String reimb_type) {
+    public void setReimb_type(int reimb_type) {
         this.reimb_type = reimb_type;
     }
 }

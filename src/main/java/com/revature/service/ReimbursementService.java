@@ -18,8 +18,20 @@ public class ReimbursementService {
         this.reimbursementDAO = mockDao;
     }
 
+    public Reimbursement addReimbursement(Reimbursement reimbursement) {
+        Reimbursement added = this.reimbursementDAO.addReimbursement(reimbursement);
+
+        return added;
+    };
+
     public List<Reimbursement> getAllReimbursements() {
         List<Reimbursement> reimbursements = this.reimbursementDAO.getAllReimbursements();
+
+        return reimbursements;
+    }
+
+    public List<Reimbursement> getEmployeeReimbursements(Integer user_id) {
+        List<Reimbursement> reimbursements = this.reimbursementDAO.getEmployeeReimbursements(user_id);
 
         return reimbursements;
     }
