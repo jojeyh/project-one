@@ -12,6 +12,7 @@ import io.javalin.http.Handler;
 import io.javalin.http.UnauthorizedResponse;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
+import org.json.JSONObject;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -63,6 +64,7 @@ public class ReimbursementController implements Controller {
         }
 
         List<Reimbursement> reimbursements = reimbursementService.getAllReimbursements();
+
         ctx.json(reimbursements);
     };
 
@@ -84,10 +86,31 @@ public class ReimbursementController implements Controller {
         ctx.json(reimbursements);
     };
 
+    private Handler updateReimbStatus = ctx -> {
+
+        String jwt = ctx.header("Authorization").split(" ")[1];
+
+        Jws<Claims> token = this.jwtService.parseJwt(jwt);
+
+        Integer user_id = Integer.parseInt(ctx.pathParam("user_id"));
+        if (!token.getBody().get("user_role").equals("finmanager") || !token.getBody().get("user_id").equals(user_id)) {
+            throw new UnauthorizedResponse("You are not authorized to update this reimbursement");
+        }
+
+        JSONObject json = new JSONObject(ctx.body());
+        Integer reimb_id = Integer.parseInt(ctx.pathParam("reimb_id"));
+        String status = json.getString("status");
+
+        Reimbursement reimbursement = this.reimbursementService.updateReimbStatus(reimb_id, status);
+
+        ctx.json(reimbursement);
+    };
+
     @Override
     public void mapEndpoints(Javalin app) {
-        app.get("/reimbursement", getAllReimbursements);
-        app.post("/user/{user_id}/reimbursement", addReimbursement);
-        app.get("/employee/{user_id}/reimbursements", getEmployeeReimbursements);
+        app.get("/reimbursements", getAllReimbursements);
+        app.post("/user/{user_id}/reimbursements", addReimbursement);
+        app.get("/user/{user_id}/reimbursements", getEmployeeReimbursements);
+        app.patch("/user/{user_id}/reimbursements/{reimb_id}", updateReimbStatus);
     }
 }

@@ -35,4 +35,10 @@ public class ReimbursementService {
 
         return reimbursements;
     }
+
+    public Reimbursement updateReimbStatus(Integer reimb_id, String status) {
+        Reimbursement reimbursement = this.reimbursementDAO.updateReimbStatus(reimb_id, status);
+
+        return reimbursement;
+    }
 }
