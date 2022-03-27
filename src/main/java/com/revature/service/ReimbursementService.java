@@ -2,7 +2,10 @@ package com.revature.service;
 
 import com.revature.controller.ReimbursementController;
 import com.revature.dao.ReimbursementDAO;
+import com.revature.dto.AddReimbursementDTO;
+import com.revature.dto.ResponseReimbursementDTO;
 import com.revature.model.Reimbursement;
+import com.revature.utility.Mapper;
 
 import java.util.List;
 
@@ -18,27 +21,27 @@ public class ReimbursementService {
         this.reimbursementDAO = mockDao;
     }
 
-    public Reimbursement addReimbursement(Reimbursement reimbursement) {
-        Reimbursement added = this.reimbursementDAO.addReimbursement(reimbursement);
+    public boolean addReimbursement(Reimbursement reimbursement) {
+        boolean added = this.reimbursementDAO.addReimbursement(reimbursement);
 
         return added;
     };
 
-    public List<Reimbursement> getAllReimbursements() {
-        List<Reimbursement> reimbursements = this.reimbursementDAO.getAllReimbursements();
+    public List<ResponseReimbursementDTO> getAllReimbursements() {
+        List<ResponseReimbursementDTO> reimbursements = this.reimbursementDAO.getAllReimbursements();
 
         return reimbursements;
     }
 
-    public List<Reimbursement> getEmployeeReimbursements(Integer user_id) {
-        List<Reimbursement> reimbursements = this.reimbursementDAO.getEmployeeReimbursements(user_id);
+    public List<ResponseReimbursementDTO> getEmployeeReimbursements(Integer user_id) {
+        List<ResponseReimbursementDTO> reimbursements = this.reimbursementDAO.getEmployeeReimbursements(user_id);
 
         return reimbursements;
     }
 
-    public Reimbursement updateReimbStatus(Integer reimb_id, String status) {
-        Reimbursement reimbursement = this.reimbursementDAO.updateReimbStatus(reimb_id, status);
+    public boolean updateReimbStatus(Integer reimb_id, String status) {
+        boolean ok = this.reimbursementDAO.updateReimbStatus(reimb_id, status);
 
-        return reimbursement;
+        return ok;
     }
 }

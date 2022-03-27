@@ -2,155 +2,110 @@ package com.revature.model;
 
 import java.io.InputStream;
 import java.sql.Timestamp;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Objects;
 
 public class Reimbursement {
-    private int id;
-    private int amount;
-    private Timestamp submitted;
-    private Timestamp resolved;
-    private String description;
-    private byte[] image; // TODO change to InputStream
-    private int author;
-    private int resolver;
-    private int status;
-    private int reimb_type;
-
-    public Reimbursement(int id, int amount, Timestamp submitted, Timestamp resolved, String description, byte[] image, int author, int resolver, int status, int reimb_type) {
-        this.id = id;
-        this.amount = amount;
-        this.submitted = submitted;
-        this.resolved = resolved;
-        this.description = description;
-        this.image = image;
-        this.author = author;
-        this.resolver = resolver;
-        this.status = status;
-        this.reimb_type = reimb_type;
-    }
-
-    public Reimbursement(int id, int amount, Timestamp submitted, String description, byte[] image, int author, int resolver, int status, int reimb_type) {
-        this.id = id;
-        this.amount = amount;
-        this.submitted = submitted;
-        this.description = description;
-        this.image = image;
-        this.author = author;
-        this.resolver = resolver;
-        this.status = status;
-        this.reimb_type = reimb_type;
-    }
-
-    @Override
-    public String toString() {
-        return "Reimbursement{" +
-                "id=" + id +
-                ", amount=" + amount +
-                ", submitted=" + submitted +
-                ", resolved=" + resolved +
-                ", description='" + description + '\'' +
-                ", image=" + Arrays.toString(image) +
-                ", author=" + author +
-                ", resolver=" + resolver +
-                ", status=" + status +
-                ", reimb_type=" + reimb_type +
-                '}';
-    }
+    private int reimb_id;
+    private int reimb_amount;
+    private Timestamp reimb_submitted;
+    private Timestamp reimb_resolved;
+    private String reimb_description;
+    private InputStream reimb_receipt;
+    private int reimb_author;
+    private int reimb_resolver;
+    private int reimb_status_id;
+    private int reimb_type_id;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Reimbursement)) return false;
         Reimbursement that = (Reimbursement) o;
-        return getId() == that.getId() && getAmount() == that.getAmount() && getAuthor() == that.getAuthor() && getResolver() == that.getResolver() && getStatus() == that.getStatus() && getReimb_type() == that.getReimb_type() && Objects.equals(getSubmitted(), that.getSubmitted()) && getResolved().equals(that.getResolved()) && getDescription().equals(that.getDescription()) && Arrays.equals(getImage(), that.getImage());
+        return getReimb_id() == that.getReimb_id() && getReimb_amount() == that.getReimb_amount() && getReimb_author() == that.getReimb_author() && getReimb_resolver() == that.getReimb_resolver() && getReimb_status_id() == that.getReimb_status_id() && getReimb_type_id() == that.getReimb_type_id() && getReimb_submitted().equals(that.getReimb_submitted()) && Objects.equals(getReimb_resolved(), that.getReimb_resolved()) && Objects.equals(getReimb_description(), that.getReimb_description()) && Objects.equals(getReimb_receipt(), that.getReimb_receipt());
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(getId(), getAmount(), getSubmitted(), getResolved(), getDescription(), getAuthor(), getResolver(), getStatus(), getReimb_type());
-        result = 31 * result + Arrays.hashCode(getImage());
-        return result;
+        return Objects.hash(getReimb_id(), getReimb_amount(), getReimb_submitted(), getReimb_resolved(), getReimb_description(), getReimb_receipt(), getReimb_author(), getReimb_resolver(), getReimb_status_id(), getReimb_type_id());
     }
 
-    public int getId() {
-        return id;
+    public int getReimb_id() {
+        return reimb_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setReimb_id(int reimb_id) {
+        this.reimb_id = reimb_id;
     }
 
-    public int getAmount() {
-        return amount;
+    public int getReimb_amount() {
+        return reimb_amount;
     }
 
-    public void setAmount(int amount) {
-        this.amount = amount;
+    public void setReimb_amount(int reimb_amount) {
+        this.reimb_amount = reimb_amount;
     }
 
-    public Timestamp getSubmitted() {
-        return submitted;
+    public Timestamp getReimb_submitted() {
+        return reimb_submitted;
     }
 
-    public void setSubmitted(Timestamp submitted) {
-        this.submitted = submitted;
+    public void setReimb_submitted(Timestamp reimb_submitted) {
+        this.reimb_submitted = reimb_submitted;
     }
 
-    public Timestamp getResolved() {
-        return resolved;
+    public Timestamp getReimb_resolved() {
+        return reimb_resolved;
     }
 
-    public void setResolved(Timestamp resolved) {
-        this.resolved = resolved;
+    public void setReimb_resolved(Timestamp reimb_resolved) {
+        this.reimb_resolved = reimb_resolved;
     }
 
-    public String getDescription() {
-        return description;
+    public String getReimb_description() {
+        return reimb_description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setReimb_description(String reimb_description) {
+        this.reimb_description = reimb_description;
     }
 
-    public byte[] getImage() {
-        return image;
+    public InputStream getReimb_receipt() {
+        return reimb_receipt;
     }
 
-    public void setImage(byte[] image) {
-        this.image = image;
+    public void setReimb_receipt(InputStream reimb_receipt) {
+        this.reimb_receipt = reimb_receipt;
     }
 
-    public int getAuthor() {
-        return author;
+    public int getReimb_author() {
+        return reimb_author;
     }
 
-    public void setAuthor(int author) {
-        this.author = author;
+    public void setReimb_author(int reimb_author) {
+        this.reimb_author = reimb_author;
     }
 
-    public int getResolver() {
-        return resolver;
+    public int getReimb_resolver() {
+        return reimb_resolver;
     }
 
-    public void setResolver(int resolver) {
-        this.resolver = resolver;
+    public void setReimb_resolver(int reimb_resolver) {
+        this.reimb_resolver = reimb_resolver;
     }
 
-    public int getStatus() {
-        return status;
+    public int getReimb_status_id() {
+        return reimb_status_id;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setReimb_status_id(int reimb_status_id) {
+        this.reimb_status_id = reimb_status_id;
     }
 
-    public int getReimb_type() {
-        return reimb_type;
+    public int getReimb_type_id() {
+        return reimb_type_id;
     }
 
-    public void setReimb_type(int reimb_type) {
-        this.reimb_type = reimb_type;
+    public void setReimb_type_id(int reimb_type_id) {
+        this.reimb_type_id = reimb_type_id;
     }
 }

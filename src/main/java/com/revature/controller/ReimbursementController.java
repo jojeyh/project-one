@@ -1,19 +1,20 @@
 package com.revature.controller;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.revature.dto.ReimbursementDTO;
+import com.revature.dto.AddReimbursementDTO;
+import com.revature.dto.ResponseReimbursementDTO;
 import com.revature.model.Reimbursement;
 import com.revature.service.JWTService;
 import com.revature.service.ReimbursementService;
-import com.revature.service.UserService;
+import com.revature.utility.Mapper;
 import io.javalin.Javalin;
 import io.javalin.http.Handler;
 import io.javalin.http.UnauthorizedResponse;
+import io.javalin.http.UploadedFile;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import org.json.JSONObject;
 
+import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -32,24 +33,32 @@ public class ReimbursementController implements Controller {
         String jwt = ctx.header("Authorization").split(" ")[1];
         Jws<Claims> token = this.jwtService.parseJwt(jwt);
 
-        Integer user_id = Integer.parseInt(ctx.pathParam("user_id"));
-
         if (!token.getBody().get("user_role").equals("employee")) {
             throw new UnauthorizedResponse("Only employees can access this endpoint");
         }
 
-        if (!token.getBody().get("user_id").equals(user_id)) {
+        Integer userId = Integer.parseInt(ctx.pathParam("user_id"));
+
+        if (!token.getBody().get("user_id").equals(userId)) {
             throw new UnauthorizedResponse("You may only submit reimbursements for yourself");
         }
 
         Timestamp submitted = new Timestamp(System.currentTimeMillis());
 
-        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
-        Reimbursement reimbursement = gson.fromJson(ctx.body(), Reimbursement.class);
-        reimbursement.setSubmitted(submitted);
+        AddReimbursementDTO dto = new AddReimbursementDTO();
+        dto.setSubmitted(submitted);
+        dto.setUserId(userId);
+        dto.setAmount(Integer.parseInt(ctx.formParam("amount")));
+        dto.setDescription(ctx.formParam("description"));
+        dto.setType(ctx.formParam("type"));
 
-        Reimbursement added = this.reimbursementService.addReimbursement(reimbursement);
+        UploadedFile file = ctx.uploadedFile("receipt");
+        InputStream is = file.getContent();
+        dto.setReceipt(is);
 
+        boolean added = this.reimbursementService.addReimbursement(Mapper.dtoToReimb(dto));
+
+        ctx.status(201);
         ctx.json(added);
     };
 
@@ -63,8 +72,9 @@ public class ReimbursementController implements Controller {
             throw new UnauthorizedResponse("You must be a manager to access all reimbursements");
         }
 
-        List<Reimbursement> reimbursements = reimbursementService.getAllReimbursements();
+        List<ResponseReimbursementDTO> reimbursements = this.reimbursementService.getAllReimbursements();
 
+        ctx.status(201);
         ctx.json(reimbursements);
     };
 
@@ -81,8 +91,9 @@ public class ReimbursementController implements Controller {
             throw new UnauthorizedResponse("You are not authorized to view these reimbursements");
         }
 
-        List<Reimbursement> reimbursements = reimbursementService.getEmployeeReimbursements(user_id);
+        List<ResponseReimbursementDTO> reimbursements = reimbursementService.getEmployeeReimbursements(user_id);
 
+        ctx.status(201);
         ctx.json(reimbursements);
     };
 
@@ -93,17 +104,18 @@ public class ReimbursementController implements Controller {
         Jws<Claims> token = this.jwtService.parseJwt(jwt);
 
         Integer user_id = Integer.parseInt(ctx.pathParam("user_id"));
+
         if (!token.getBody().get("user_role").equals("finmanager") || !token.getBody().get("user_id").equals(user_id)) {
             throw new UnauthorizedResponse("You are not authorized to update this reimbursement");
         }
 
-        JSONObject json = new JSONObject(ctx.body());
         Integer reimb_id = Integer.parseInt(ctx.pathParam("reimb_id"));
-        String status = json.getString("status");
+        String status = ctx.queryParam("status");
 
-        Reimbursement reimbursement = this.reimbursementService.updateReimbStatus(reimb_id, status);
+        boolean ok = this.reimbursementService.updateReimbStatus(reimb_id, status);
 
-        ctx.json(reimbursement);
+        ctx.status(201);
+        ctx.json(ok);
     };
 
     @Override
