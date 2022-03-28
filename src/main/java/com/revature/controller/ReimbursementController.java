@@ -12,6 +12,7 @@ import io.javalin.http.UnauthorizedResponse;
 import io.javalin.http.UploadedFile;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
+import org.apache.tika.Tika;
 import org.json.JSONObject;
 
 import java.io.InputStream;
@@ -114,8 +115,32 @@ public class ReimbursementController implements Controller {
 
         boolean ok = this.reimbursementService.updateReimbStatus(reimb_id, status);
 
-        ctx.status(201);
+        ctx.status(200);
         ctx.json(ok);
+    };
+
+    private Handler getReimbursementImage = (ctx) -> {
+//        String jwt = ctx.header("Authorization").split(" ")[1];
+//        Jws<Claims> token = this.jwtService.parseJwt(jwt);
+//
+        String userId = ctx.pathParam("user_id");
+//
+//        if (!(token.getBody().get("user_role").equals("student") || token.getBody().get("user_role").equals("trainer"))) {
+//            throw new UnauthorizedResponse("You are not allowed to access this endpoint because you are not a student or trainer");
+//        }
+//
+//        if (token.getBody().get("user_role").equals("student") && !("" + token.getBody().get("user_id")).equals(userId)) {
+//            throw new UnauthorizedResponse("You are a student, but not accessing an assignment image that belongs to you");
+//        }
+
+        String reimbursementId = ctx.pathParam("reimb_id");
+        InputStream receipt = this.reimbursementService.getReimbursementImage(reimbursementId, userId);
+
+        Tika tika = new Tika();
+        String mimeType = tika.detect(receipt);
+
+        ctx.header("Content-Type", mimeType); // tell the client what type of image is being sent in the response
+        ctx.result(receipt);
     };
 
     @Override
@@ -124,5 +149,6 @@ public class ReimbursementController implements Controller {
         app.post("/user/{user_id}/reimbursements", addReimbursement);
         app.get("/user/{user_id}/reimbursements", getEmployeeReimbursements);
         app.patch("/user/{user_id}/reimbursements/{reimb_id}", updateReimbStatus);
+        app.get("/user/{user_id}/reimbursements/{reimb_id}/receipt", getReimbursementImage);
     }
 }

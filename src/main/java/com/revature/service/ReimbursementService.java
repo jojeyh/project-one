@@ -1,12 +1,12 @@
 package com.revature.service;
 
-import com.revature.controller.ReimbursementController;
 import com.revature.dao.ReimbursementDAO;
-import com.revature.dto.AddReimbursementDTO;
 import com.revature.dto.ResponseReimbursementDTO;
+import com.revature.exception.ImageNotFoundException;
 import com.revature.model.Reimbursement;
-import com.revature.utility.Mapper;
 
+import java.io.InputStream;
+import java.sql.SQLException;
 import java.util.List;
 
 public class ReimbursementService {
@@ -43,5 +43,25 @@ public class ReimbursementService {
         boolean ok = this.reimbursementDAO.updateReimbStatus(reimb_id, status);
 
         return ok;
+    }
+
+    public InputStream getReimbursementImage(String reimbursementId, String userId) throws ImageNotFoundException {
+        try {
+            int rId = Integer.parseInt(reimbursementId);
+            int uId = Integer.parseInt(userId);
+
+            InputStream is = this.reimbursementDAO.getReimbursementImage(rId, uId);
+
+            if (is == null) {
+                throw new ImageNotFoundException("Reimbursement " + reimbursementId + " does not have an image");
+            }
+
+            return is;
+        } catch(NumberFormatException e) {
+            throw new IllegalArgumentException("Reimbursement and/or user id must be an int value");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

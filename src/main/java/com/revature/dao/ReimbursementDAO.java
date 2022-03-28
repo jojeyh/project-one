@@ -6,6 +6,7 @@ import com.revature.utility.ConnectionUtility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -123,7 +124,7 @@ public class ReimbursementDAO {
                 ResponseReimbursementDTO r = new ResponseReimbursementDTO();
                 r.setId(rs.getInt("reimb_id"));
                 r.setEmployee_id(rs.getInt("reimb_author"));
-                r.setEmployee_name(rs.getString("user_first_name") +
+                r.setEmployee_name(rs.getString("user_first_name") + " " +
                         rs.getString("user_last_name"));
                 r.setType(rs.getString("reimb_type"));
                 r.setDescription(rs.getString("reimb_description"));
@@ -164,5 +165,26 @@ public class ReimbursementDAO {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public InputStream getReimbursementImage(int reimbursementId, int userId) throws SQLException {
+        try (Connection conn = ConnectionUtility.getConnection()) {
+            String query = "SELECT reimb_receipt FROM ers_reimbursement " +
+                    "WHERE reimb_id = ? AND reimb_author = ?";
+
+            PreparedStatement stmt = conn.prepareStatement(query);
+
+            stmt.setInt(1, reimbursementId);
+            stmt.setInt(2, userId);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                InputStream is = rs.getBinaryStream("reimb_receipt");
+                return is;
+            } else {
+                return null;
+            }
+        }
     }
 }
