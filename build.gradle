@@ -1,5 +1,10 @@
 plugins {
-    id 'application'
+   	id 'java' 
+}
+
+compileJava {
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
 }
 
 group 'org.example'
@@ -7,6 +12,20 @@ version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+}
+
+jar {
+	manifest {
+		attributes 'Main-Class': 'com.revature.main.Driver'
+	}
+
+	from {
+		(configurations.runtimeClasspath).collect {
+			it.isDirectory() ? it : zipTree(it)
+		}
+	}
+
+	duplicatesStrategy 'exclude'
 }
 
 dependencies {
@@ -25,10 +44,7 @@ dependencies {
     testImplementation 'org.mockito:mockito-core:4.4.0'
     testImplementation 'org.mockito:mockito-junit-jupiter:4.4.0'
 }
+
 test {
     useJUnitPlatform()
-}
-
-application {
-    mainClass.set("com.revature.main.Driver");
 }
