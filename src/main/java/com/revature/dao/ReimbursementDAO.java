@@ -58,7 +58,7 @@ public class ReimbursementDAO {
                 ResponseReimbursementDTO r = new ResponseReimbursementDTO();
                 r.setId(id);
                 r.setEmployee_id(rs.getInt("reimb_author"));
-                r.setEmployee_name(rs.getString("user_first_name") +
+                r.setEmployee_name(rs.getString("user_first_name") + " " +
                         rs.getString("user_last_name"));
                 r.setType(rs.getString("reimb_type"));
                 r.setDescription(rs.getString("reimb_description"));
@@ -88,7 +88,7 @@ public class ReimbursementDAO {
                 ResponseReimbursementDTO r = new ResponseReimbursementDTO();
                 r.setId(rs.getInt("reimb_id"));
                 r.setEmployee_id(rs.getInt("reimb_author"));
-                r.setEmployee_name(rs.getString("user_first_name") +
+                r.setEmployee_name(rs.getString("user_first_name") + " " +
                         rs.getString("user_last_name"));
                 r.setType(rs.getString("reimb_type"));
                 r.setDescription(rs.getString("reimb_description"));

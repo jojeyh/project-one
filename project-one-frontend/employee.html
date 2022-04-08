@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=firefox">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Reimburser - Employee Page</title>
+	<link rel="stylesheet" href="style.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+</head>
+<body>
+	
+	<br>
+	<h2 class="title is-1"><center>Employee Page</h2><br>
+	<center><button class="button" id="logout-btn">Logout</button></center><br>
+	<div class="columns">
+		<div class="column">
+			<div class="select">
+			<select id="status-select" onchange="setFilter(this)">
+				<option value="pending">Pending</option>
+				<option value="approved">Approved</option>
+				<option value="rejected">Rejected</option>
+			</select>
+			</div>	
+
+			<table class="table" id="reimb-tbl">
+				<thead></thead>
+				<tbody></tbody>
+			</table>
+		</div>
+		<div class="column">
+			<h2>Submit New Reimbursement</h2>
+			<div>
+				<label for="description">Description: </label>
+				<input class="input" type="text" id="description">
+			</div>
+			<div>
+				<label for="amount">Amount: </label>
+				<input class="input" type="text" id="amount" \>
+			</div>
+			<div>
+				<label for="receipt-img">Receipt: </label>
+				<input class="input" type="file" id="receipt-img" \>
+			</div>
+			<div>
+				<label for="reimb-type">Type: </label>
+				<select class="select" id="reimb-type">
+					<option value="lodging">LODGING</option>
+					<option value="travel">TRAVEL</option>
+					<option value="food">FOOD</option>
+					<option value="other">OTHER</option>
+				</select>
+			</div>
+			<button id="submit-btn" class="button">Submit</button>
+		</div>
+	</div>
+	
+	<script src="employee.js"></script>
+</body>
+</html>

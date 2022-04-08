@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=firefox">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Reimburser - Financial Manager Page</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+</head> 
+<body> 
+	<br>
+	<h1 class="title is-1"><center>Manager Reimbursement Page</h1><br>
+	<center><button id="logout-btn" class="button">Logout</button></p><br>
+		<div class="select">
+	<center><p><select class="select" id="status-select" onchange="setFilter(this)">
+		<option value="pending">Pending</option>
+		<option value="approved">Approved</option>
+		<option value="rejected">Rejected</option>
+	</select>
+	</center>
+	</div>
+	<br>
+
+	<table id="reimb-tbl" class="table">
+		<thead></thead>
+		<tbody></tbody>
+	</table>
+
+	 <div class="container">
+        <div id="modal-div" class="modal">
+            <div class="modal-background"></div>
+                <div class="modal-content">
+                    <p class="image">
+                        <img src="" id="modal-img">
+                    </p>
+                </div>
+            <button class="modal-close is-large"
+                    aria-label="close">
+            </button>
+        </div>
+    </div>
+
+	<script src="finmanager.js"></script>
+</body>
+</html>

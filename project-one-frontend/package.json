@@ -1,0 +1,15 @@
+{
+  "name": "project-one-frontend",
+  "version": "1.0.0",
+  "description": "Frontend for Revature Project 1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bulma": "^0.9.3",
+    "crypto-js": "^4.1.1"
+  }
+}
