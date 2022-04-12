@@ -1,4 +1,4 @@
-### Employee Reimbursement System
+# Employee Reimbursement System
 
 ## Description
 The employee reimbursement system is a full stack web application that facilitates the submission and management of reimbursements for work-related expenses.  Employees can submit reimbursements and view past/pending entries.  Managers login and approve/deny requests.
