@@ -10,10 +10,15 @@ The employee reimbursement system is a full stack web application that facilitat
 ## Getting Started
 
 To run the backend, enter (if on Windows run in Git Bash)
-
 ```
 git clone https://github.com/polydin/project-one.git
 cd project-one
 ./gradlew build
 ./gradlew run
+```
+
+To run the frontend, open `index.html` in your browser or run
+```
+npm install
+live-server
 ```
