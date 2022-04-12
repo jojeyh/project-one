@@ -1,11 +1,15 @@
-# Project One: Employee Reimbursement System
+Employee Reimbursement System
 
-## Summary
+## Description
 The employee reimbursement system is a full stack web application that facilitates the submission and management of reimbursements for work-related expenses.  Employees can submit reimbursements and view past/pending entries.  Managers login and approve/deny requests.
 
-## Local Development
+## Technologies Used
 
-To run the backend locally, enter 
+## Features
+
+## Getting Started
+
+To run the backend, enter (if on Windows run in Git Bash)
 
 ```
 git clone https://github.com/polydin/project-one.git
