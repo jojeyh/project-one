@@ -13,6 +13,8 @@ The employee reimbursement system is a full stack web application that facilitat
   - Approve/deny reimbursement requests
   - View reimbursements status
 
+## To-Dos
+
 ## Getting Started
 
 To run the backend, enter (if on Windows run in Git Bash)
