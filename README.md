@@ -25,6 +25,7 @@ cd project-one
 
 To run the frontend, open `index.html` in your browser or run
 ```
+cd project-one-frontend
 npm install
 live-server
 ```
