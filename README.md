@@ -4,8 +4,14 @@
 The employee reimbursement system is a full stack web application that facilitates the submission and management of reimbursements for work-related expenses.  Employees can submit reimbursements and view past/pending entries.  Managers login and approve/deny requests.
 
 ## Technologies Used
+  - Javalin
+  - PostgreSQL
+  - Javascript/HTML/CSS
 
 ## Features
+  - Upload reimbursements with receipt pictures
+  - Approve/deny reimbursement requests
+  - View reimbursements status
 
 ## Getting Started
 
